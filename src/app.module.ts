@@ -6,6 +6,8 @@ import { ClientModule } from './modules/client/client.module';
 import { ProductsModule } from './modules/products/products.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { Client } from './modules/client/entities/client.entity';
+import { WrapperService } from './core/services/wrapper/wrapper.service';
+import { SaleModule } from './modules/sale/sale.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -14,15 +16,15 @@ import { Client } from './modules/client/entities/client.entity';
     port: 1433, // Enable TCP/IP on sqlserver configuration manager
     username: 'sa',
     password: 'pass',
-    database: 'dbstore',
+    database: 'DBFerreteria',
     entities: [Client],
     // synchronize: true,
     options: {
       encrypt: true, // Use encryption
       trustServerCertificate: true, // For self-signed certificates
     },
-  }), ClientModule, ProductsModule, OrdersModule,],
+  }), ClientModule, ProductsModule, OrdersModule, SaleModule,],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, WrapperService],
 })
 export class AppModule {}
