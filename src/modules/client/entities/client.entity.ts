@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Sale } from "src/modules/sale/entities/sale.entity";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('tbclient')
+@Entity('tbCliente')
 export class Client {
 
     @PrimaryGeneratedColumn({name: 'client_id'})
@@ -14,4 +15,9 @@ export class Client {
 
     @CreateDateColumn({name: 'created_at', type: "datetime"})
     created_at: Date
+
+    @OneToMany(() => Sale, sale => sale.client)
+    sales: Sale[]
+
+
 }

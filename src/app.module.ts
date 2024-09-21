@@ -4,10 +4,23 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientModule } from './modules/client/client.module';
 import { ProductsModule } from './modules/products/products.module';
-import { OrdersModule } from './modules/orders/orders.module';
 import { Client } from './modules/client/entities/client.entity';
 import { WrapperService } from './core/services/wrapper/wrapper.service';
 import { SaleModule } from './modules/sale/sale.module';
+import { SellerModule } from './modules/seller/seller.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { BrandModule } from './modules/brand/brand.module';
+import { StockModule } from './modules/stock/stock.module';
+import { ProductsaleModule } from './modules/productsale/productsale.module';
+import { RoleModule } from './modules/role/role.module';
+import { Sale } from './modules/sale/entities/sale.entity';
+import { Seller } from './modules/seller/entities/seller.entity';
+import { Product } from './modules/products/entities/product.entity';
+import { Stock } from './modules/stock/entities/stock.entity';
+import { Productsale } from './modules/productsale/entities/productsale.entity';
+import { Category } from './modules/categories/entities/category.entity';
+import { Role } from './modules/role/entities/role.entity';
+import { Brand } from './modules/brand/entities/brand.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -17,13 +30,13 @@ import { SaleModule } from './modules/sale/sale.module';
     username: 'sa',
     password: 'pass',
     database: 'DBFerreteria',
-    entities: [Client],
+    entities: [Client, Sale, Seller, Product, Stock, Productsale, Category, Role, Brand],
     // synchronize: true,
     options: {
       encrypt: true, // Use encryption
       trustServerCertificate: true, // For self-signed certificates
     },
-  }), ClientModule, ProductsModule, OrdersModule, SaleModule,],
+  }), ClientModule, ProductsModule, SaleModule, SellerModule, CategoriesModule, BrandModule, StockModule, ProductsaleModule, RoleModule],
   controllers: [AppController],
   providers: [AppService, WrapperService],
 })
