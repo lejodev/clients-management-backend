@@ -13,7 +13,7 @@ export class BrandService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} brand`;
+    return `This action returns a #${id} brandaaaa`;
   }
 
   update(id: number, updateBrandDto: UpdateBrandDto) {
