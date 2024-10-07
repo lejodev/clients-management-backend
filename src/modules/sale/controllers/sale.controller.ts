@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Sse, MessageEvent } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Sse, MessageEvent, Header } from '@nestjs/common';
 import { SaleService } from '../services/sale.service';
 import { CreateSaleDto } from '../dto/create-sale.dto';
 import { UpdateSaleDto } from '../dto/update-sale.dto';
@@ -8,9 +8,19 @@ import { interval, map, Observable } from 'rxjs';
 export class SaleController {
   constructor(private readonly saleService: SaleService) {}
 
+  
   @Post()
   create(@Body() createSaleDto: CreateSaleDto) {
-    return this.saleService.create(createSaleDto);
+    this.saleService.create(createSaleDto);
+    return null;
+  }
+  
+  @Sse('/sse')
+  @Header('Content-Type', 'text/event-stream')
+  @Header('Cache-Control', 'no-cache')
+  @Header('Connection', 'keep-alive')
+  sse(): Observable<MessageEvent>{
+    return this.saleService.setSaleSseHandle()
   }
 
   @Post('/new')
@@ -45,8 +55,4 @@ export class SaleController {
     return this.saleService.remove(+id);
   }
 
-  @Sse('sse')
-  sse(): Observable<MessageEvent>{
-    return interval(1000).pipe(map((_) => ({ data: { hello: 'world' } })));
-  }
 }

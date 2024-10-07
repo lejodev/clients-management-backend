@@ -43,7 +43,7 @@ export class BrandController {
   //   return this.brandService.remove(+id);
   // }
 
-  @Sse('cars')
+  @Sse('/cars')
   endServices(): Observable<carService> {
     let name = { carNo: 0 };
     return interval(1000).pipe(
