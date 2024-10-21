@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductsaleDto } from '../dto/create-productsale.dto';
 import { UpdateProductsaleDto } from '../dto/update-productsale.dto';
+import { Productsale } from '../entities/productsale.entity';
+import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
+import { Observable } from 'rxjs';
 @Injectable()
 export class ProductsaleService {
-  create(createProductsaleDto: CreateProductsaleDto) {
-    return 'This action adds a new productsale';
+  constructor(private wrapperService: WrapperService) {}
+
+  create(data: Productsale): Observable<Productsale> {
+    return this.wrapperService.create(Productsale, data);
   }
 
   findAll() {
