@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { Observable, from } from 'rxjs';
+import { Observable, firstValueFrom, from } from 'rxjs';
 import { DeleteResult, EntityManager, EntityTarget, FindOptionsWhere, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 @Injectable()
 export class WrapperService {
   constructor(@InjectEntityManager() private entityManager: EntityManager) {}
+
+  toPromise<T>(observable: Observable<T>): Promise<T> {
+    return firstValueFrom(observable)
+  }
 
   create<T>(entity: EntityTarget<T>, data: T): Observable<T> {
     return from(this.entityManager.save(entity, data));
@@ -26,6 +30,10 @@ export class WrapperService {
 
   delete<T>(entityTarget: EntityTarget<T>, id: string):Observable<DeleteResult>{
     return from( this.entityManager.delete(entityTarget,id))
+  }
+
+  query<T>(query: string, params: string[]): Observable<T> {
+    return from(this.entityManager.query(query, params))
   }
 
 }
