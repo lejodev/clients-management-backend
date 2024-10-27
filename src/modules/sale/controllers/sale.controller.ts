@@ -36,10 +36,10 @@ export class SaleController {
   //   return this.saleService.setSaleSseHandle()
   // }
 
-  // @Post('/new')
-  // async newSale(@Body() createsaleDto: CreateSaleDto) {
-  //   return await this.saleService.createSale(createsaleDto)
-  // }
+  @Post('/new')
+  async newSale(@Body() sale: Sale) {
+    return await this.saleService.create(sale)
+  }
 
   @Get()
   findAll() {

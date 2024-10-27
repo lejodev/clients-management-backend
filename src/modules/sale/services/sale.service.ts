@@ -9,7 +9,7 @@ import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
 
 @Injectable()
 export class SaleService {
-  constructor(private wrapperService: WrapperService) {}
+  constructor(private wrapperService: WrapperService) { }
 
   create(sale: Sale) {
     return this.wrapperService.create(Sale, sale);
@@ -19,8 +19,19 @@ export class SaleService {
     return this.wrapperService.findAll(Sale);
   }
 
-  findOne(id: number) {
-    return this.wrapperService.findOne(Sale, { id });
+  findOne(id: number): Observable<Sale> {
+    try {
+      const sale = this.wrapperService.findOne(Sale, { id });
+
+      if (!sale) {
+        throw new Error("No sale found")
+      }
+
+      return sale
+
+    } catch (error) {
+      throw error(error)
+    }
   }
 
   // findByDate(date: Date) {
