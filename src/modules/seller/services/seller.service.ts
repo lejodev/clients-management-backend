@@ -1,25 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSellerDto } from '../dto/create-seller.dto';
 import { UpdateSellerDto } from '../dto/update-seller.dto';
+import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
+import { Seller } from '../entities/seller.entity';
+import { Observable } from 'rxjs';
 @Injectable()
 export class SellerService {
-  create(createSellerDto: CreateSellerDto) {
-    return 'This action adds a new seller';
+  constructor(private wrapperService: WrapperService) {}
+
+  async create(createSeller: Seller): Promise<Seller> {
+    try {
+      const create = await this.wrapperService.toPromise(
+        this.wrapperService.create(Seller, createSeller),
+      );
+      return create;
+    } catch (error) {
+      throw new HttpException('Error creating user', HttpStatus.BAD_REQUEST);
+    }
   }
 
   findAll() {
-    return `This action returns all seller`;
+    return this.wrapperService.findAll(Seller);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} seller`;
+  async findOne(id: number): Promise<Seller | string> {
+    const user = await this.wrapperService.toPromise(
+      this.wrapperService.findOne(Seller, { id }),
+    );
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return user;
   }
 
-  update(id: number, updateSellerDto: UpdateSellerDto) {
-    return `This action updates a #${id} seller`;
+  update(id: number, updateSeller: Seller) {
+    return this.wrapperService.update(Seller, id, updateSeller);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} seller`;
+  remove(id: string) {
+    return this.wrapperService.delete(Seller, id);
   }
 }

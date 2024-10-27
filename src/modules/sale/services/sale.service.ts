@@ -12,6 +12,10 @@ export class SaleService {
   constructor(private wrapperService: WrapperService) { }
 
   create(sale: Sale) {
+    console.log('saleeeeee');
+    const query = `EXECUTE PROCEDURE [dbo].[pr_efectuar_venta] `
+
+    // return 'sale';
     return this.wrapperService.create(Sale, sale);
   }
 
@@ -47,7 +51,7 @@ export class SaleService {
   }
 
   remove(id: string) {
-    return this.wrapperService.delete(Sale, id)
+    return this.wrapperService.delete(Sale, id);
   }
 
   // setSaleSseHandle() {

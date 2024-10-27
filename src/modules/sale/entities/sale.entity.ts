@@ -26,6 +26,8 @@ export class Sale {
   @JoinColumn({ name: 'id_vendedor' })
   seller: Seller;
 
-  @ManyToMany(() => Productsale, (productsSale) => productsSale.sales)
+  @ManyToMany(() => Productsale, (productsSale) => productsSale.sales, {
+    eager: true,
+  })
   saleProducts: Productsale[];
 }
