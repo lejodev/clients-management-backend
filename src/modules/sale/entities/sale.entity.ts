@@ -1,6 +1,6 @@
 import { Client } from 'src/modules/client/entities/client.entity';
 import { Productsale } from 'src/modules/productsale/entities/productsale.entity';
-import { Seller } from 'src/modules/seller/entities/seller.entity';
+import { Seller } from 'src/modules/auth/entities/seller.entity';
 import {
   Column,
   Entity,

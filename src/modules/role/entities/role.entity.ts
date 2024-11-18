@@ -1,4 +1,4 @@
-import { Seller } from "src/modules/seller/entities/seller.entity";
+import { Seller } from "src/modules/auth/entities/seller.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('tbCargo')
