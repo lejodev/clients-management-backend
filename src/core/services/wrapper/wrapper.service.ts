@@ -20,7 +20,7 @@ export class WrapperService {
     return from(this.entityManager.find(entityClass));
   }
 
-  findOne<T>(entityTarget: EntityTarget<T>, where: FindOptionsWhere<T> | FindOptionsWhere<T>[]): Observable<T> {
+  findOne<T>(entityTarget: EntityTarget<T>, where: FindOptionsWhere<T> | FindOptionsWhere<T>[]): Observable<T | null> {
     return from(this.entityManager.findOneBy(entityTarget, where));
   }
 

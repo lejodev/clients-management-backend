@@ -27,6 +27,9 @@ export class Seller {
   @Column({ name: 'email', type: 'nvarchar', nullable: false, unique: true })
   email: string;
 
+  @Column({ name: 'password', type: 'nvarchar', nullable: false })
+  password: string;
+
   @OneToMany(() => Sale, (sale) => sale.seller)
   sales: Sale[];
 

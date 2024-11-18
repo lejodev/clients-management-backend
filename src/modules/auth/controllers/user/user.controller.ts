@@ -28,8 +28,6 @@ import {
   
     @Get()
     findAll() {
-        console.log("INSDEED");
-        
       return this.sellerService.findAll();
     }
   
