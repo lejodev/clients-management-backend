@@ -25,7 +25,7 @@ import { Brand } from './modules/brand/entities/brand.entity';
 @Module({
   imports: [TypeOrmModule.forRoot({
     type: 'mssql',
-    host: 'DESKTOP-HRH0QPB',
+    host: 'localhost',
     port: 1433, // Enable TCP/IP on sqlserver configuration manager
     username: 'sa',
     password: 'pass',

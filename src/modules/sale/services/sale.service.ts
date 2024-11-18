@@ -9,11 +9,10 @@ import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
 
 @Injectable()
 export class SaleService {
-  constructor(private wrapperService: WrapperService) {}
+  constructor(private wrapperService: WrapperService) { }
 
   create(sale: Sale) {
-    console.log('saleeeeee');
-    const query = `EXECUTE PROCEDURE [dbo].[pr_efectuar_venta] `
+    const query = `EXECUTE PROCEDURE [dbo].[pr_efectuar_venta] @id_cliente=`
 
     // return 'sale';
     return this.wrapperService.create(Sale, sale);
@@ -23,8 +22,19 @@ export class SaleService {
     return this.wrapperService.findAll(Sale);
   }
 
-  findOne(id: number) {
-    return this.wrapperService.findOne(Sale, { id });
+  findOne(id: number): Observable<Sale> {
+    try {
+      const sale = this.wrapperService.findOne(Sale, { id });
+
+      if (!sale) {
+        throw new Error("No sale found")
+      }
+
+      return sale
+
+    } catch (error) {
+      throw error(error)
+    }
   }
 
   // findByDate(date: Date) {
