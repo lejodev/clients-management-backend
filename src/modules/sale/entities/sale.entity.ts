@@ -5,6 +5,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -27,7 +28,8 @@ export class Sale {
   seller: Seller;
 
   @ManyToMany(() => Productsale, (productsSale) => productsSale.sales, {
-    eager: true,
+    // eager: true,
   })
+  @JoinTable()
   saleProducts: Productsale[];
 }

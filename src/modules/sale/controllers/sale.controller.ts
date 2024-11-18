@@ -43,6 +43,8 @@ export class SaleController {
 
   @Get()
   findAll() {
+    console.log("rererere");
+    
     return this.saleService.findAll();
   }
 

@@ -12,8 +12,7 @@ export class SaleService {
   constructor(private wrapperService: WrapperService) { }
 
   create(sale: Sale) {
-    console.log('saleeeeee');
-    const query = `EXECUTE PROCEDURE [dbo].[pr_efectuar_venta] `
+    const query = `EXECUTE PROCEDURE [dbo].[pr_efectuar_venta] @id_cliente=`
 
     // return 'sale';
     return this.wrapperService.create(Sale, sale);
