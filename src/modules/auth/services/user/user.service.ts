@@ -3,12 +3,18 @@ import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
 import { Seller } from '../../entities/seller.entity';
 import { Observable } from 'rxjs';
 import { FindOptionsWhere } from 'typeorm';
+import * as bcrypt from "bcrypt"
 @Injectable()
 export class SellerService {
     constructor(private wrapperService: WrapperService) { }
 
+    saltRounds: number = 10;
+
     async create(createSeller: Seller): Promise<Seller> {
         try {
+            createSeller.password = this.hashSyncPassword(createSeller.password)
+            console.log(createSeller);
+
             const create = await this.wrapperService.toPromise(
                 this.wrapperService.create(Seller, createSeller),
             );
@@ -46,4 +52,14 @@ export class SellerService {
     remove(id: string) {
         return this.wrapperService.delete(Seller, id);
     }
+
+    hashSyncPassword(password: string) {
+        return bcrypt.hashSync(password, this.saltRounds)
+    }
+
+    async comparePassword(hashedPassword: string, inputPassword: string) {
+        return await bcrypt.compare(inputPassword, hashedPassword)
+
+    }
+
 }
