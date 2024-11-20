@@ -6,10 +6,12 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
   } from '@nestjs/common';
   import { SellerService } from '../../services/user/user.service';
   import { Seller } from '../../entities/seller.entity';
   import { Observable } from 'rxjs';
+import { PermissionGuard } from '../../guards/permission/permission.guard';
   
   @Controller('users/employee')
   export class SellerController {
@@ -27,6 +29,7 @@ import {
     }
   
     @Get()
+    @UseGuards(PermissionGuard)
     findAll() {
       return this.sellerService.findAll();
     }

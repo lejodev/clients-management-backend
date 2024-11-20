@@ -2,11 +2,15 @@ import { Injectable, InternalServerErrorException, NotFoundException, Unauthoriz
 import { Seller } from '../../entities/seller.entity';
 import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
 import { SellerService } from '../user/user.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
 
-    constructor(private wrapperService: WrapperService, private sellerService: SellerService) { }
+    constructor(
+        private wrapperService: WrapperService,
+        private sellerService: SellerService,
+        private jwtService: JwtService) { }
 
     async login(data: Seller) {
         try {
@@ -25,8 +29,12 @@ export class AuthService {
                 data.password
             )
 
+            // JWT payload
+
+            const payload = {email: user.email, sub: user.id}
+            
             if (validatePassword) {
-                return user
+                return this.jwtService.sign(payload)
             }
 
             throw new UnauthorizedException('Invalid email or password')
@@ -40,4 +48,6 @@ export class AuthService {
 
         }
     }
+
+
 }

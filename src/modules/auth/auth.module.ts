@@ -6,10 +6,19 @@ import { SellerService } from './services/user/user.service';
 import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Seller } from './entities/seller.entity';
+import { JwtModule } from '@nestjs/jwt';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Seller])],
+  imports: [
+    TypeOrmModule.forFeature([Seller]),
+    JwtModule.register({
+      secret: "temporaryJWTSECRET",
+      signOptions: {
+        expiresIn: "1h"
+      }
+    })
+  ],
   controllers: [
     AuthController,
     SellerController],
