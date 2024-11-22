@@ -31,7 +31,7 @@ export class AuthService {
 
             // JWT payload
 
-            const payload = {email: user.email, sub: user.id}
+            const payload = {email: user.email, sub: user.id, role: user.role.id}
             
             if (validatePassword) {
                 return this.jwtService.sign(payload)
