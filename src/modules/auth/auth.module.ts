@@ -7,6 +7,7 @@ import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Seller } from './entities/seller.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtHelper, JwtService } from './services/jwt/jwt.service';
 
 
 @Module({
@@ -23,8 +24,11 @@ import { JwtModule } from '@nestjs/jwt';
     AuthController,
     SellerController],
   providers: [
-    AuthService, 
+    AuthService,
     WrapperService,
-    SellerService]
+    SellerService,
+    JwtService,
+    JwtHelper
+  ]
 })
 export class AuthModule { }

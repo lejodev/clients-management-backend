@@ -1,7 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -34,6 +33,8 @@ export class RolesGuard implements CanActivate {
         })
         
       request.user = payload
+      console.log('Permitted', payload);
+      
       
       return requiredRoles.some(role => payload.role === role)
     } catch (error) {

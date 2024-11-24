@@ -16,7 +16,9 @@ import { PermissionGuard } from '../../guards/permission/permission.guard';
 import { AdminGuard } from '../../guards/admin/admin.guard';
 import { RolesGuard } from '../../guards/roles-guard/roles-guard.guard';
 import { Roles } from '../../decorators/roles/roles.decorator';
+import { OwnershipGuard } from '../../guards/ownership-guard/ownership-guard.guard';
 
+// @UseGuards(PermissionGuard)
 // @UseGuards(PermissionGuard)
 @Controller('users/employee')
 export class SellerController {
@@ -24,36 +26,33 @@ export class SellerController {
 
   @Post()
   async create(@Body() createSeller: Seller) {
-    // let response
-    // try {
     return await this.sellerService.create(createSeller);
-    //    return response
-    // } catch (error) {
-    //   return error
-    // }
   }
 
   @Get()
-  @Roles(5)
-  @UseGuards(RolesGuard)
+  @Roles('Gerente general')
+  @UseGuards(PermissionGuard, RolesGuard)
   findAll(@Request() req) {
-    console.log(req.user);
-    
     return this.sellerService.findAll();
   }
 
+  @UseGuards(PermissionGuard)
   @Get(':id')
-  @UseGuards(AdminGuard)
   findOne(@Param('id') id: number, @Request() req) {
     console.log(req.user);
     return this.sellerService.findOne(id);
   }
 
+  //Ownership Guard should be implemented along with the @Roles() custom decorator
+  @Roles('Encargado de almacén', 'Gerente general')
+  @UseGuards(RolesGuard, PermissionGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSeller: Seller) {
     return this.sellerService.update(+id, updateSeller);
   }
 
+  @Roles('Encargado de almacén', 'Gerente general')
+  @UseGuards(RolesGuard, PermissionGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.sellerService.remove(id);

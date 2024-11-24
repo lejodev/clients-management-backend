@@ -31,10 +31,10 @@ export class AuthService {
 
             // JWT payload
 
-            const payload = {email: user.email, sub: user.id, role: user.role.id}
-            
+            const payload = { email: user.email, sub: user.id, role: user.role.name }
+
             if (validatePassword) {
-                return this.jwtService.sign(payload)
+                return this.jwtService.sign(payload, { secret: "temporaryJWTSECRET" })
             }
 
             throw new UnauthorizedException('Invalid email or password')
@@ -43,6 +43,8 @@ export class AuthService {
             if (error instanceof NotFoundException || error instanceof UnauthorizedException) {
                 throw error;
             }
+            console.log(error);
+
 
             throw new InternalServerErrorException('An unexpedted error occurred')
 
