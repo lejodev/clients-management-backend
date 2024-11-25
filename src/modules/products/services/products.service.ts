@@ -8,10 +8,10 @@ import { Category } from 'src/modules/categories/entities/category.entity';
 
 @Injectable()
 export class ProductsService {
-  constructor(private wrapperService: WrapperService) {}
+  constructor(private wrapperService: WrapperService) { }
   create(data: Product): Observable<Product> {
     if (!data.brand || !data.category) {
-      throw new Error('No brand provided');
+      throw new Error('No brand or category provided');
     }
     return this.wrapperService.create(Product, data);
   }
@@ -22,6 +22,10 @@ export class ProductsService {
 
   findOne(id: number) {
     return this.wrapperService.findOne(Product, { id });
+  }
+
+  getBy(query: string, params: string[]) {
+    return this.wrapperService.Query(query, params)
   }
 
   update(id: number, updateProduct: Product) {
