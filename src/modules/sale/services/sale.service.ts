@@ -6,16 +6,23 @@ import { Sale } from '../entities/sale.entity';
 import { Repository } from 'typeorm';
 import { Observable, Subject } from 'rxjs';
 import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
+import { Stock } from 'src/modules/stock/entities/stock.entity';
+import { ISaleInfo } from '../interfaces/ISaleInfo.interface';
 
 @Injectable()
 export class SaleService {
   constructor(private wrapperService: WrapperService) { }
 
-  create(sale: Sale) {
-    const query = `EXECUTE PROCEDURE [dbo].[pr_efectuar_venta] @id_cliente=`
+  async create(sale: ISaleInfo) {
+    console.log("saleeeeeee", sale);
+    try {
+      const products = JSON.stringify(sale.products)
+      return this.wrapperService.Query('EXEC prNewSale @id_cliente = @0,	@id_vendedor = @1,	@JSONProducts = @2 ', [sale.id_cliente, sale.id_vendedor, products])
+    } catch (error) {
+      console.log(error);
 
-    // return 'sale';
-    return this.wrapperService.create(Sale, sale);
+    }
+
   }
 
   findAll() {

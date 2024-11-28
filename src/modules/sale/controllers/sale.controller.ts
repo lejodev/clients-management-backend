@@ -9,22 +9,27 @@ import {
   Sse,
   MessageEvent,
   Header,
+  UseGuards,
 } from '@nestjs/common';
 import { SaleService } from '../services/sale.service';
 import { CreateSaleDto } from '../dto/create-sale.dto';
 import { UpdateSaleDto } from '../dto/update-sale.dto';
 import { interval, map, Observable } from 'rxjs';
 import { Sale } from '../entities/sale.entity';
+import { Roles } from 'src/modules/auth/decorators/roles/roles.decorator';
+import { Employee } from 'src/shared/enums/roles.enum';
+import { RolesGuard } from 'src/modules/auth/guards/roles-guard/roles-guard.guard';
+import { ISaleInfo } from '../interfaces/ISaleInfo.interface';
 
 @Controller('sale')
 export class SaleController {
-  constructor(private readonly saleService: SaleService) {}
+  constructor(private readonly saleService: SaleService) { }
 
   @Post()
   create(@Body() sale: Sale) {
     console.log('IN');
-    
-    this.saleService.create(sale);
+
+    // this.saleService.create(sale);
     return null;
   }
 
@@ -36,15 +41,17 @@ export class SaleController {
   //   return this.saleService.setSaleSseHandle()
   // }
 
+  @Roles(Employee.ADMIN)
+  @UseGuards(RolesGuard)
   @Post('/new')
-  async newSale(@Body() sale: Sale) {
+  async newSale(@Body() sale: ISaleInfo) {
     return await this.saleService.create(sale)
   }
 
   @Get()
   findAll() {
     console.log("rererere");
-    
+
     return this.saleService.findAll();
   }
 

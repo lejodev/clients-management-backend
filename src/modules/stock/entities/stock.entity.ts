@@ -1,7 +1,7 @@
 import { Product } from 'src/modules/products/entities/product.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity({name: "tbInventario"})
 export class Stock {
   @PrimaryGeneratedColumn({ name: 'id_inventario' })
   id: number;

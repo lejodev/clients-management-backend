@@ -21,6 +21,7 @@ import { Category } from './modules/categories/entities/category.entity';
 import { Role } from './modules/role/entities/role.entity';
 import { Brand } from './modules/brand/entities/brand.entity';
 import { AuthModule } from './modules/auth/auth.module';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -45,7 +46,8 @@ import { AuthModule } from './modules/auth/auth.module';
     StockModule,
     ProductsaleModule,
     RoleModule,
-    AuthModule],
+    AuthModule,
+    SharedModule],
   controllers: [AppController],
   providers: [AppService, WrapperService],
 })
