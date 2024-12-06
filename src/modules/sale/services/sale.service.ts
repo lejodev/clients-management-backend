@@ -15,15 +15,11 @@ export class SaleService {
 
   async create(sale: ISaleInfo) {
     console.log("saleeeeeee", sale);
-    try {
-      const products = JSON.stringify(sale.products)
-      return this.wrapperService.Query('EXEC prNewSale @id_cliente = @0,	@id_vendedor = @1,	@JSONProducts = @2 ', [sale.id_cliente, sale.id_vendedor, products])
-    } catch (error) {
-      console.log(error);
-
-    }
+    const products = JSON.stringify(sale.products)
+    return this.wrapperService.Query('EXEC prNewSale @id_cliente = @0,	@id_vendedor = @1,	@JSONProducts = @2 ', [sale.id_cliente, sale.id_vendedor, products])
 
   }
+
 
   findAll() {
     return this.wrapperService.findAll(Sale);

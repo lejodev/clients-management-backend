@@ -10,6 +10,8 @@ import {
   MessageEvent,
   Header,
   UseGuards,
+  ConflictException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { SaleService } from '../services/sale.service';
 import { CreateSaleDto } from '../dto/create-sale.dto';
@@ -45,7 +47,14 @@ export class SaleController {
   @UseGuards(RolesGuard)
   @Post('/new')
   async newSale(@Body() sale: ISaleInfo) {
-    return await this.saleService.create(sale)
+    try {
+      return await this.saleService.create(sale)
+    } catch (error) {
+      if (error.message.includes('Insufficient amount of stock')) {
+        throw new ConflictException('Requested stock exceeds available inventory.');
+      }
+      throw new InternalServerErrorException('An error occurred while processing the sale')
+    }
   }
 
   @Get()

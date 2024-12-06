@@ -38,8 +38,9 @@ export class WrapperService {
   }
 
   Query<T>(query: string, parameters: Array<any>) {
-    return this.entityManager.query(query, parameters)
+    return this.entityManager.query(query, parameters);
   }
+
 
   update<T>(entityTarget: EntityTarget<T>, conditions: any, data: QueryDeepPartialEntity<T>): Observable<UpdateResult> {
     return from(this.entityManager.update(entityTarget, conditions, data))
