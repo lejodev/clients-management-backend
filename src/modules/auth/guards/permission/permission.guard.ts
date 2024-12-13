@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { firstValueFrom, Observable } from 'rxjs';
-import { SellerService } from '../../services/user/user.service';
+import { EmployeeService } from '../../services/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtHelper } from '../../services/jwt/jwt.service';
 

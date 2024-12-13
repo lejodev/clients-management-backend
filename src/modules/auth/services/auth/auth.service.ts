@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { Seller } from '../../entities/seller.entity';
+import { Employee } from '../../entities/employee.entity';
 import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
-import { SellerService } from '../user/user.service';
+import { EmployeeService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -9,14 +9,14 @@ export class AuthService {
 
     constructor(
         private wrapperService: WrapperService,
-        private sellerService: SellerService,
+        private employeeService: EmployeeService,
         private jwtService: JwtService) { }
 
-    async login(data: Seller) {
+    async login(data: Employee) {
         try {
             // Find user if exists
             const user = await this.wrapperService.toPromise(
-                this.wrapperService.findOne(Seller, { email: data.email })
+                this.wrapperService.findOne(Employee, { email: data.email })
             );
 
             if (!user) {
@@ -24,7 +24,7 @@ export class AuthService {
             }
 
             // Validate password
-            const validatePassword = await this.sellerService.comparePassword(
+            const validatePassword = await this.employeeService.comparePassword(
                 user.password,
                 data.password
             )

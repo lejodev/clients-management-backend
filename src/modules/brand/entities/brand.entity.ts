@@ -1,12 +1,12 @@
 import { Product } from "src/modules/products/entities/product.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('tbMarca')
+@Entity('tbbrand')
 export class Brand {
-    @PrimaryGeneratedColumn({name: 'id_marca'})
+    @PrimaryGeneratedColumn({name: 'id_brand'})
     id: number
 
-    @Column({name: 'nombre'})
+    @Column({name: 'name'})
     name: string
 
     @OneToMany(() => Product, product => product.brand)

@@ -1,22 +1,22 @@
 import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
-import { Seller } from '../../entities/seller.entity';
+import { Employee } from '../../entities/employee.entity';
 import { Observable } from 'rxjs';
 import { FindOptionsWhere } from 'typeorm';
 import * as bcrypt from "bcrypt"
 @Injectable()
-export class SellerService {
+export class EmployeeService {
     constructor(private wrapperService: WrapperService) { }
 
     saltRounds: number = 10;
 
-    async create(createSeller: Seller): Promise<Seller> {
+    async create(createEmployee: Employee): Promise<Employee> {
         try {
-            createSeller.password = this.hashSyncPassword(createSeller.password)
-            console.log(createSeller);
+            createEmployee.password = this.hashSyncPassword(createEmployee.password)
+            console.log(createEmployee);
 
             const create = await this.wrapperService.toPromise(
-                this.wrapperService.create(Seller, createSeller),
+                this.wrapperService.create(Employee, createEmployee),
             );
             return create;
         } catch (error) {
@@ -27,17 +27,17 @@ export class SellerService {
     findAll() {
         console.log("service");
 
-        return this.wrapperService.findAll(Seller);
+        return this.wrapperService.findAll(Employee);
     }
 
     // Gets by FindOptionsWhere condition
-    findBy(condition: FindOptionsWhere<Seller>) {
-        return this.wrapperService.findOne(Seller, condition)
+    findBy(condition: FindOptionsWhere<Employee>) {
+        return this.wrapperService.findOne(Employee, condition)
     }
 
-    async findOne(id: number): Promise<Seller | string> {
+    async findOne(id: number): Promise<Employee | string> {
         const user = await this.wrapperService.toPromise(
-            this.wrapperService.findOne(Seller, { id }),
+            this.wrapperService.findOne(Employee, { id }),
         );
         if (!user) {
             throw new NotFoundException(`User with id ${id} not found`);
@@ -45,12 +45,12 @@ export class SellerService {
         return user;
     }
 
-    update(id: number, updateSeller: Seller) {
-        return this.wrapperService.update(Seller, id, updateSeller);
+    update(id: number, updateEmployee: Employee) {
+        return this.wrapperService.update(Employee, id, updateEmployee);
     }
 
     remove(id: string) {
-        return this.wrapperService.delete(Seller, id);
+        return this.wrapperService.delete(Employee, id);
     }
 
     hashSyncPassword(password: string) {

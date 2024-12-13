@@ -13,13 +13,13 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('tbProducto')
+@Entity('tbproduct')
 export class Product {
-  @PrimaryGeneratedColumn({ name: 'id_producto' })
+  @PrimaryGeneratedColumn({ name: 'id_product' })
   id: number;
 
   @ManyToOne(() => Category, (category) => category.products)
-  @JoinColumn({ name: 'id_categoria' })
+  @JoinColumn({ name: 'id_category' })
   category: Category;
 
   @ManyToOne(() => Brand, (brand) => brand.products)
@@ -32,15 +32,15 @@ export class Product {
   @ManyToMany(() => Productsale, productSale => productSale.products)
   saleProducts: Productsale[]
 
-  @Column({ name: 'nombre' })
+  @Column({ name: 'name' })
   name: string;
 
-  @Column({ name: 'descripcion' })
+  @Column({ name: 'description' })
   description: string;
 
-  @Column({ name: 'precio_compra', type: 'decimal', precision: 10, scale: 2 })
+  @Column({ name: 'buy_price', type: 'numeric', precision: 10, scale: 2 })
   buyPrice: number;
 
-  @Column({ name: 'precio_venta', type: 'decimal', precision: 10, scale: 2 })
+  @Column({ name: 'sell_price', type: 'numeric', precision: 10, scale: 2 })
   sellPrice: number;
 }

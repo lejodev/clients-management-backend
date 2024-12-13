@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { Seller } from '../../entities/seller.entity';
+import { Employee } from '../../entities/employee.entity';
 import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -8,7 +8,7 @@ export class AuthController {
     constructor(private authService: AuthService) { }
 
     @Post('login')
-    login(@Body() employee: Seller) {
+    login(@Body() employee: Employee) {
         return this.authService.login(employee)
     }
 }

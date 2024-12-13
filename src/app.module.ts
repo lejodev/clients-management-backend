@@ -13,7 +13,7 @@ import { StockModule } from './modules/stock/stock.module';
 import { ProductsaleModule } from './modules/productsale/productsale.module';
 import { RoleModule } from './modules/role/role.module';
 import { Sale } from './modules/sale/entities/sale.entity';
-import { Seller } from './modules/auth/entities/seller.entity';
+import { Employee } from './modules/auth/entities/employee.entity';
 import { Product } from './modules/products/entities/product.entity';
 import { Stock } from './modules/stock/entities/stock.entity';
 import { Productsale } from './modules/productsale/entities/productsale.entity';
@@ -25,18 +25,18 @@ import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
-    type: 'mssql',
+    type: 'postgres',
     host: 'localhost',
-    port: 1433, // Enable TCP/IP on sqlserver configuration manager
-    username: 'sa',
-    password: 'pass',
-    database: 'DBFerreteria',
-    entities: [Client, Sale, Seller, Product, Stock, Productsale, Category, Role, Brand],
+    port: 5432, // Enable TCP/IP on sqlserver configuration manager
+    username: 'postgres',
+    password: 'root',
+    database: 'toolshop',
+    entities: [Client, Sale, Employee, Product, Stock, Productsale, Category, Role, Brand],
     // synchronize: true,
-    options: {
-      encrypt: true, // Use encryption
-      trustServerCertificate: true, // For self-signed certificates
-    },
+    // options: {
+    //   encrypt: true, // Use encryption
+    //   trustServerCertificate: true, // For self-signed certificates
+    // },
   }),
     ClientModule,
     ProductsModule,

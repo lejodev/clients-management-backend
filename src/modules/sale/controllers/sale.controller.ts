@@ -53,6 +53,8 @@ export class SaleController {
       if (error.message.includes('Insufficient amount of stock')) {
         throw new ConflictException('Requested stock exceeds available inventory.');
       }
+      console.log(error);
+      
       throw new InternalServerErrorException('An error occurred while processing the sale')
     }
   }

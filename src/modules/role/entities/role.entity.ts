@@ -1,14 +1,14 @@
-import { Seller } from "src/modules/auth/entities/seller.entity";
+import { Employee } from "src/modules/auth/entities/employee.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('tbCargo')
+@Entity('tbrole')
 export class Role {
-    @PrimaryGeneratedColumn({name: 'id_cargo'})
+    @PrimaryGeneratedColumn({name: 'id_role'})
     id: number
 
-    @Column({name: 'nombre_cargo'})
+    @Column({name: 'role_name', type: 'text'})
     name: string
 
-    @OneToMany(() => Seller, seller => seller.role)
-    sellers: Seller[]
+    @OneToMany(() => Employee, employee => employee.role)
+    employees: Employee[]
 }

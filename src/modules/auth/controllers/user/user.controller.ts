@@ -9,8 +9,8 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { SellerService } from '../../services/user/user.service';
-import { Seller } from '../../entities/seller.entity';
+import { EmployeeService } from '../../services/user/user.service';
+import { Employee } from '../../entities/employee.entity';
 import { Observable } from 'rxjs';
 import { PermissionGuard } from '../../guards/permission/permission.guard';
 import { AdminGuard } from '../../guards/admin/admin.guard';
@@ -21,12 +21,14 @@ import { OwnershipGuard } from '../../guards/ownership-guard/ownership-guard.gua
 // @UseGuards(PermissionGuard)
 // @UseGuards(PermissionGuard)
 @Controller('users/employee')
-export class SellerController {
-  constructor(private readonly sellerService: SellerService) { }
+export class EmployeeController {
+  constructor(private readonly sellerService: EmployeeService) { }
 
   @Post()
-  async create(@Body() createSeller: Seller) {
-    return await this.sellerService.create(createSeller);
+  async create(@Body() createEmployee: Employee) {
+    console.log(createEmployee);
+    
+    return await this.sellerService.create(createEmployee);
   }
 
   @Get()
@@ -47,8 +49,8 @@ export class SellerController {
   @Roles('Encargado de almacén', 'Gerente general')
   @UseGuards(RolesGuard, PermissionGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSeller: Seller) {
-    return this.sellerService.update(+id, updateSeller);
+  update(@Param('id') id: string, @Body() updateEmployee: Employee) {
+    return this.sellerService.update(+id, updateEmployee);
   }
 
   @Roles('Encargado de almacén', 'Gerente general')

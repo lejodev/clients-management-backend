@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './controllers/auth/auth.controller';
-import { SellerController } from './controllers/user/user.controller';
+import { EmployeeController } from './controllers/user/user.controller';
 import { AuthService } from './services/auth/auth.service';
-import { SellerService } from './services/user/user.service';
+import { EmployeeService } from './services/user/user.service';
 import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Seller } from './entities/seller.entity';
+import { Employee } from './entities/employee.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtHelper, JwtService } from './services/jwt/jwt.service';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Seller]),
+    TypeOrmModule.forFeature([Employee]),
     JwtModule.register({
       secret: "temporaryJWTSECRET",
       signOptions: {
@@ -22,11 +22,11 @@ import { JwtHelper, JwtService } from './services/jwt/jwt.service';
   ],
   controllers: [
     AuthController,
-    SellerController],
+    EmployeeController],
   providers: [
     AuthService,
     WrapperService,
-    SellerService,
+    EmployeeService,
     JwtService,
     JwtHelper
   ]

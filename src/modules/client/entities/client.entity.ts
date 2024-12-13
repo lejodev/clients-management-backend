@@ -1,20 +1,23 @@
 import { Sale } from "src/modules/sale/entities/sale.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('tbCliente')
+@Entity('tbclient')
 export class Client {
 
     @PrimaryGeneratedColumn({name: 'client_id'})
     id: number;
 
-    @Column({name: 'name'})
+    @Column({name: 'client_name'})
     name: string
 
-    @Column({name: 'rating', type: "float"})
-    rating: number
+    @Column({name: 'last_name', type: 'text'})
+    lastname: string
 
-    @CreateDateColumn({name: 'created_at', type: "datetime"})
-    created_at: Date
+    @Column({name: 'address', type: 'text'})
+    address: string
+
+    @Column({name: 'phone', type: 'text'})
+    rating: number
 
     @OneToMany(() => Sale, sale => sale.client)
     sales: Sale[]

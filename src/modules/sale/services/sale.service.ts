@@ -16,7 +16,7 @@ export class SaleService {
   async create(sale: ISaleInfo) {
     console.log("saleeeeeee", sale);
     const products = JSON.stringify(sale.products)
-    return this.wrapperService.Query('EXEC prNewSale @id_cliente = @0,	@id_vendedor = @1,	@JSONProducts = @2 ', [sale.id_cliente, sale.id_vendedor, products])
+    return this.wrapperService.Query('CALL pr_newsale($1, $2, $3)', [sale.id_employee, sale.id_user, products])
 
   }
 

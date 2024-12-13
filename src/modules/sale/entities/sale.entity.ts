@@ -1,6 +1,6 @@
 import { Client } from 'src/modules/client/entities/client.entity';
 import { Productsale } from 'src/modules/productsale/entities/productsale.entity';
-import { Seller } from 'src/modules/auth/entities/seller.entity';
+import { Employee } from 'src/modules/auth/entities/employee.entity';
 import {
   Column,
   Entity,
@@ -11,22 +11,22 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'tbVenta' })
+@Entity({ name: 'tbsale' })
 export class Sale {
-  @PrimaryGeneratedColumn({ name: 'id_venta' })
+  @PrimaryGeneratedColumn({ name: 'id_sale' })
   id: number;
-
-  @Column({ name: 'fecha_venta' })
-  saleDate: Date;
-
+  
   @ManyToOne(() => Client, (client) => client.sales)
-  @JoinColumn({ name: 'id_cliente' })
+  @JoinColumn({ name: 'id_client' })
   client: Client;
 
-  @ManyToOne(() => Seller, (seller) => seller.sales)
-  @JoinColumn({ name: 'id_vendedor' })
-  seller: Seller;
+  @ManyToOne(() => Employee, (employee) => employee.sales)
+  @JoinColumn({ name: 'id_employee' })
+  employee: Employee;
 
+  @Column({ name: 'date', type: 'timestamp with time zone' })
+  saleDate: Date;
+  
   @ManyToMany(() => Productsale, (productsSale) => productsSale.sales, {
     // eager: true,
   })
