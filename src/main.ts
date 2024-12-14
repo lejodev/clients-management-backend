@@ -8,6 +8,7 @@ async function bootstrap() {
     // methods: 'GET,HEAD,OPTIONS',
     // credentials: true, // If you need to allow credentials
   });
+  const port = process.env.PORT || 3000
   await app.listen(3001);
 }
 bootstrap();
