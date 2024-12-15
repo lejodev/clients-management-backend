@@ -32,11 +32,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,  // Use the env variable for the host
-      port: +process.env.DB_PORT || 5432,  // Use the env variable for the port
-      username: process.env.DB_USERNAME,  // Use the env variable for the username
-      password: process.env.DB_PASSWORD,  // Use the env variable for the password
-      database: process.env.DB_DATABASE,  // Use the env variable for the database
+      url: process.env.DATABASE_URL,
+      // host: process.env.DB_HOST,  // Use the env variable for the host
+      // port: parseInt(process.env.DB_PORT, 10),  // Use the env variable for the port
+      // username: process.env.DB_USERNAME,  // Use the env variable for the username
+      // password: process.env.DB_PASSWORD,  // Use the env variable for the password
+      // database: process.env.DB_DATABASE,  // Use the env variable for the database
       entities: [Client, Sale, Employee, Product, Stock, Productsale, Category, Role, Brand],
       synchronize: true,  // Only for development, do not use in production
     })
