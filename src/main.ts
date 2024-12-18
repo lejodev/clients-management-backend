@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -8,6 +9,16 @@ async function bootstrap() {
     // methods: 'GET,HEAD,OPTIONS',
     // credentials: true, // If you need to allow credentials
   });
+
+  const config = new DocumentBuilder()
+    .setTitle('toolshop API')
+    .setDescription('Toolshop internal management API')
+    .setVersion('1.0')
+    .build()
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document)
+
   const port = process.env.PORT || 3000;
   console.log(`Environment PORT: ${process.env.PORT}`); // Debugging
   console.log(`Final Port: ${port}`);
