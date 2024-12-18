@@ -9,7 +9,13 @@ async function bootstrap() {
     // credentials: true, // If you need to allow credentials
   });
   const port = process.env.PORT || 3000;
-  console.log(`Server is running on port ${port}`); // Add this for debugging
+  console.log(`Environment PORT: ${process.env.PORT}`); // Debugging
+  console.log(`Final Port: ${port}`);
+
+  app.enableCors({
+    origin: '*', // Adjust this based on your needs
+  });
+
   await app.listen(port, "0.0.0.0");
 }
 bootstrap();
