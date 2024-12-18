@@ -9,7 +9,19 @@ import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 export class AuthController {
     constructor(private authService: AuthService) { }
 
-    @ApiBody({ description: 'employee login info', required: true, isArray: false, type: Employee })
+    @ApiBody({
+        description: 'employee login info', required: true, isArray: false, type: Employee,
+        examples: {
+            'example':
+            {
+                value:
+                {
+                    email: 'employee@example.com',
+                    password: 'password123'
+                }
+            }
+        }
+    })
     @ApiOperation({ summary: 'Login user' })
     @Post('login')
     login(@Body() employee: Employee) {
