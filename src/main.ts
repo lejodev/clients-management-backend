@@ -11,6 +11,8 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
   console.log(`Environment PORT: ${process.env.PORT}`); // Debugging
   console.log(`Final Port: ${port}`);
+  console.log(`🚀 Server ready at http://0.0.0.0:${port}`);
+
 
   app.enableCors({
     origin: '*', // Adjust this based on your needs
