@@ -2,7 +2,7 @@ import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { Employee } from '../../entities/employee.entity';
 import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
 import { AuthService } from '../../services/auth/auth.service';
-import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('login')
 @Controller('auth')
@@ -23,6 +23,12 @@ export class AuthController {
         }
     })
     @ApiOperation({ summary: 'Login user' })
+    @ApiCreatedResponse({
+        description: "Token",
+        type: "string",
+        isArray: false
+      })
+      @ApiBadRequestResponse({ description: 'Bad Request' })
     @Post('login')
     login(@Body() employee: Employee) {
         return this.authService.login(employee)

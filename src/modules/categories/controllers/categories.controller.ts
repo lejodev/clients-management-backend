@@ -2,11 +2,34 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CategoriesService } from '../services/categories.service';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
+import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Category } from '../entities/category.entity';
 
+@ApiTags("Categories")
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
+  @ApiBody({
+    description: 'Category', required: true, isArray: false, type: Category,
+    examples: {
+      'example':
+      {
+        value:
+        {
+          "name": "Roofing",
+          "description": "This category is related to roofing materials and tools",
+        }
+      }
+    }
+  })
+  @ApiOperation({ summary: 'Create new category' })
+  @ApiCreatedResponse({
+    description: "Created successfully",
+    type: Category,
+    isArray: false
+  })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
   @Post()
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoriesService.create(createCategoryDto);
