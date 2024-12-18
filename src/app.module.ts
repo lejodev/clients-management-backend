@@ -30,18 +30,25 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.DATABASE_URL,
-      // host: process.env.DB_HOST,  // Use the env variable for the host
-      // port: parseInt(process.env.DB_PORT, 10),  // Use the env variable for the port
-      // username: process.env.DB_USERNAME,  // Use the env variable for the username
-      // password: process.env.DB_PASSWORD,  // Use the env variable for the password
-      // database: process.env.DB_DATABASE,  // Use the env variable for the database
-      entities: [Client, Sale, Employee, Product, Stock, Productsale, Category, Role, Brand],
-      synchronize: true,  // Only for development, do not use in production
-    })
-    ,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService:ConfigService) => ({
+        type: configService.get<string>('DB_TYPE') as 'postgres',
+        host: configService.get<string>('DB_HOST'),
+        port: configService.get<number>('DB_PORT'), // Enable TCP/IP on sqlserver configuration manager
+        username: configService.get<string>('DB_USERNAME'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_DATABASE'),
+        
+        entities: [Client, Sale, Employee, Product, Stock, Productsale, Category, Role, Brand],
+        // synchronize: true,
+        // options: {
+        //   encrypt: true, // Use encryption
+        //   trustServerCertificate: true, // For self-signed certificates
+        // },
+      }),
+      inject: [ConfigService]
+    }),
     ClientModule,
     ProductsModule,
     SaleModule,
