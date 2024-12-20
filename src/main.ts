@@ -4,11 +4,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    // origin: 'http://localhost:53506', // Replace with your Angular app's URL
-    // methods: 'GET,HEAD,OPTIONS',
-    // credentials: true, // If you need to allow credentials
-  });
 
   const config = new DocumentBuilder()
     .setTitle('toolshop API')
@@ -26,7 +21,8 @@ async function bootstrap() {
 
 
   app.enableCors({
-    origin: '*', // Adjust this based on your needs
+    origin: 'http://localhost:4200', // Adjust this based on your needs
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
   });
 
   await app.listen(port, "0.0.0.0");

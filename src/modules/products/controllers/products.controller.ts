@@ -54,6 +54,8 @@ export class ProductsController {
 
   @Get()
   findAll() {
+    console.log('IN');
+    
     return this.productsService.findAll();
   }
 

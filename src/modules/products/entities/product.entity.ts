@@ -23,7 +23,7 @@ export class Product {
   category: Category;
 
   @ManyToOne(() => Brand, (brand) => brand.products)
-  @JoinColumn({name: 'marca'})
+  @JoinColumn({name: 'brand'})
   brand: Brand;
 
   @OneToMany(() => Stock, stock => stock.products)
