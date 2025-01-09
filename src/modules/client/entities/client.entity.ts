@@ -17,7 +17,7 @@ export class Client {
     address: string
 
     @Column({name: 'phone', type: 'text'})
-    rating: number
+    phone: string
 
     @OneToMany(() => Sale, sale => sale.client)
     sales: Sale[]

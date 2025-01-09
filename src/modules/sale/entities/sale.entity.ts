@@ -8,6 +8,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -15,21 +16,22 @@ import {
 export class Sale {
   @PrimaryGeneratedColumn({ name: 'id_sale' })
   id: number;
-  
-  @ManyToOne(() => Client, (client) => client.sales)
+
+  @ManyToOne(() => Client, (client) => client.sales,
+    {  cascade: true }
+  )
   @JoinColumn({ name: 'id_client' })
   client: Client;
 
-  @ManyToOne(() => Employee, (employee) => employee.sales)
+  @ManyToOne(() => Employee, (employee) => employee.sales, { eager: true })
   @JoinColumn({ name: 'id_employee' })
   employee: Employee;
 
   @Column({ name: 'date', type: 'timestamp with time zone' })
   saleDate: Date;
-  
-  @ManyToMany(() => Productsale, (productsSale) => productsSale.sales, {
-    // eager: true,
+
+  @OneToMany(() => Productsale, (productsSale) => productsSale.sales, {
+    eager: true,
   })
-  @JoinTable()
   saleProducts: Productsale[];
 }

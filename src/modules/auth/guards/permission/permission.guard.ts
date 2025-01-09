@@ -23,7 +23,7 @@ export class PermissionGuard implements CanActivate {
     const payload = await this.jwtHelper.decodeToken(token)
     console.log('Token', payload);
     if (!payload) {
-      throw new UnauthorizedException('Carechimba')
+      throw new UnauthorizedException('No authorized')
     }
     request.user = payload
     return true

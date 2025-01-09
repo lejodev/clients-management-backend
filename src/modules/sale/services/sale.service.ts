@@ -3,11 +3,12 @@ import { CreateSaleDto } from '../dto/create-sale.dto';
 import { UpdateSaleDto } from '../dto/update-sale.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Sale } from '../entities/sale.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { Observable, Subject } from 'rxjs';
 import { WrapperService } from 'src/core/services/wrapper/wrapper.service';
 import { Stock } from 'src/modules/stock/entities/stock.entity';
 import { ISaleInfo } from '../interfaces/ISaleInfo.interface';
+import { Employee } from 'src/modules/auth/entities/employee.entity';
 
 @Injectable()
 export class SaleService {
@@ -23,6 +24,10 @@ export class SaleService {
 
   findAll() {
     return this.wrapperService.findAll(Sale);
+  }
+
+  findsalesByEmployee(employeeId: number) {
+    return this.wrapperService.Get<Sale>(Sale, { where: { employee: { id: employeeId } } });
   }
 
   findOne(id: number): Observable<Sale> {

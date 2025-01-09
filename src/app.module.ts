@@ -28,27 +28,33 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: process.env.NODE_ENV === 'production' ? '.env.production' : '.env.local'
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService:ConfigService) => ({
-        type: configService.get<string>('DB_TYPE') as 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT'), // Enable TCP/IP on sqlserver configuration manager
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_DATABASE'),
-        
-        entities: [Client, Sale, Employee, Product, Stock, Productsale, Category, Role, Brand],
-        // synchronize: true,
-        // options: {
-        //   encrypt: true, // Use encryption
-        //   trustServerCertificate: true, // For self-signed certificates
-        // },
+    TypeOrmModule.
+      // forRoot({
+      //   type: 'postgres',
+      //   host: 'localhost',
+      //   port: 5432, // Enable TCP/IP on sqlserver configuration manager
+      //   username: 'postgres',
+      //   password: 'root',
+      //   database: 'toolshop',
+      //   entities: [Client, Sale, Employee, Product, Stock, Productsale, Category, Role, Brand],
+      // }),
+      forRootAsync({
+        imports: [ConfigModule],
+        useFactory: (configService: ConfigService) => ({
+          type: configService.get<string>('DB_TYPE') as 'postgres',
+          host: configService.get<string>('DB_HOST'),
+          port: configService.get<number>('DB_PORT'), // Enable TCP/IP on sqlserver configuration manager
+          username: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_DATABASE'),
+
+          entities: [Client, Sale, Employee, Product, Stock, Productsale, Category, Role, Brand],
+          // synchronize: process.env.NODE_ENV !== 'production'
+        }),
+        inject: [ConfigService]
       }),
-      inject: [ConfigService]
-    }),
     ClientModule,
     ProductsModule,
     SaleModule,

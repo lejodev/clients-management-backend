@@ -29,10 +29,10 @@ export class Product {
   @OneToMany(() => Stock, stock => stock.products)
   stocks: Stock[]
 
-  @ManyToMany(() => Productsale, productSale => productSale.products)
+  @OneToMany(() => Productsale, productSale => productSale.products)
   saleProducts: Productsale[]
 
-  @Column({ name: 'name' })
+  @Column({ name: 'name', nullable: false })
   name: string;
 
   @Column({ name: 'description' })

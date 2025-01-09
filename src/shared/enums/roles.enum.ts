@@ -1,6 +1,6 @@
-export enum Employee  {
+export enum Employee {
+    SELLER = "Vendedor",
     CHIEF = "Gerente general",
-    ADMIN = "Encargado de almacén",
     ASSISTANT = "Asistente de ventas",
-    SELLER = "Vendedor"
+    ADMIN = "Encargado de almacén",
 }

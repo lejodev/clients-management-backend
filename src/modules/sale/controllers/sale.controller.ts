@@ -48,14 +48,16 @@ export class SaleController {
   @Post('/new')
   async newSale(@Body() sale: ISaleInfo) {
     try {
+      console.log(sale);
+
       return await this.saleService.create(sale)
     } catch (error) {
-      if (error.message.includes('Insufficient amount of stock')) {
-        throw new ConflictException('Requested stock exceeds available inventory.');
+      if (error.message.includes('stock for one')) {
+        throw new ConflictException({ message: 'Requested stock exceeds available inventory.' });
       }
       console.log(error);
-      
-      throw new InternalServerErrorException('An error occurred while processing the sale')
+
+      throw new InternalServerErrorException({ message: 'An unknown error occurred while processing the sale' })
     }
   }
 
@@ -66,6 +68,10 @@ export class SaleController {
     return this.saleService.findAll();
   }
 
+  @Get(':id_employee')
+  getSalesById(@Param('id_employee') employee: number) {
+    return this.saleService.findsalesByEmployee(employee);
+  }
   // @Get('/report/:date')
   // get(@Param('date') date: string){
   //   console.log(date);
