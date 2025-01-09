@@ -29,6 +29,7 @@ import { JwtHelper, JwtService } from './services/jwt/jwt.service';
     EmployeeService,
     JwtService,
     JwtHelper
-  ]
+  ],
+  exports: [JwtService]
 })
 export class AuthModule { }
