@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, NotFoundException, BadRequestException } from '@nestjs/common';
 import { StockService } from '../services/stock.service';
 import { CreateStockDto } from '../dto/create-stock.dto';
 import { UpdateStockDto } from '../dto/update-stock.dto';
@@ -7,17 +7,21 @@ import { Roles } from 'src/modules/auth/decorators/roles/roles.decorator';
 import { Employee } from 'src/shared/enums/roles.enum';
 import { RolesGuard } from 'src/modules/auth/guards/roles-guard/roles-guard.guard';
 import { JwtService } from '@nestjs/jwt';
+import { ProductsService } from 'src/modules/products/services/products.service';
 
 @Controller('stock')
 export class StockController {
-  constructor(private readonly stockService: StockService) { }
+  constructor(
+    private readonly stockService: StockService,
+    private productService: ProductsService
+  ) { }
 
   @Post()
   create(@Body() createStock: Stock) {
     return this.stockService.create(createStock);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.stockService.findAll();
   }
@@ -27,15 +31,21 @@ export class StockController {
     return this.stockService.findOne(+id);
   }
 
+  @Get(':name')
+  findByName(@Param('name') products: Stock) {
+    return this.stockService.findByName({ products })
+  }
+
+
   @Roles(Employee.ADMIN, Employee.ASSISTANT, Employee.CHIEF)
   @UseGuards(RolesGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStock: Stock) {
-
-    const stock = this
-    console.log(updateStock);
-
-    return this.stockService.update(+id, updateStock)
+  async update(@Param('id') id: string, @Body() updateStock: Stock) {
+    const stockId = parseInt(id, 10)
+    if (isNaN(stockId)) {
+      throw new BadRequestException(`Invalid stock id ${id}`)
+    }
+    return await this.stockService.update(+id, updateStock)
   }
 
   @Delete(':id')

@@ -43,7 +43,7 @@ export class SaleController {
   //   return this.saleService.setSaleSseHandle()
   // }
 
-  @Roles(Employee.ADMIN)
+  @Roles(Employee.ADMIN, Employee.ASSISTANT, Employee.SELLER, Employee.ADMIN)
   @UseGuards(RolesGuard)
   @Post('/new')
   async newSale(@Body() sale: ISaleInfo) {

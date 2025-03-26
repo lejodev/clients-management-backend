@@ -27,7 +27,7 @@ export class Sale {
   @JoinColumn({ name: 'id_employee' })
   employee: Employee;
 
-  @Column({ name: 'date', type: 'timestamp with time zone' })
+  @Column({ name: 'date', type: 'date' })
   saleDate: Date;
 
   @OneToMany(() => Productsale, (productsSale) => productsSale.sales, {
