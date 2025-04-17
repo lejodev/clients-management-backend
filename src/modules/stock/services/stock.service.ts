@@ -30,13 +30,15 @@ export class StockService {
 
   async update(id: number, updatedStock: Stock) {
     const stock = await firstValueFrom(this.wrapperService.findOne(Stock, { id: id }))
+    const date = new Date()
+    updatedStock.updatedAt = date
 
-    console.log(stock);
+    console.log(updatedStock, "updatedStock*****");
 
     if (!stock) {
       throw new Error(`Stock with id ${id} not found`);
     }
-    updatedStock.amount += stock.amount
+    stock.amount += (updatedStock.amount ?? 0)
 
 
     if (updatedStock.products?.id) {
@@ -49,8 +51,11 @@ export class StockService {
     }
     console.log(updatedStock, "updatedStock*****");
 
+    const { products, ...filteredObj } = updatedStock
+    console.log(filteredObj);
+
     try {
-      return this.wrapperService.update(Stock, { id: id }, updatedStock)
+      return this.wrapperService.update(Stock, { id: id }, filteredObj)
     } catch (error) {
       throw new Error(`Error updating stock with id ${id}`)
     }

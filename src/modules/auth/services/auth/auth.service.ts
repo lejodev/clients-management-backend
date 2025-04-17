@@ -31,6 +31,8 @@ export class AuthService {
 
             // JWT payload
 
+            console.log('***', user);
+            
             const payload = { email: user.email, sub: user.id, role: user.role.name }
 
             if (validatePassword) {
@@ -42,9 +44,11 @@ export class AuthService {
 
         } catch (error) {
             if (error instanceof NotFoundException || error instanceof UnauthorizedException) {
+                console.log('Possible user error: ', error.message);
+                
                 throw error;
             }
-            console.log(error);
+            console.log("error is happening here! *********", error);
 
 
             throw new InternalServerErrorException('An unexpedted error occurred')
